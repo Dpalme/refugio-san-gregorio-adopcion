@@ -137,15 +137,23 @@ fastify.get("/delete", async (request, reply) => {
   let params = request.query.raw ? {} : { seo: seo };
 
   // Get the log history from the db
-  const dogs = await db.deleteDog(request.);
-
-  // Let the user know if there's an error
-  params.error = params.optionHistory ? null : data.errorMessage;
+  let dogs;
+  if (request.query.id) {
+    dogs = await db.deleteDog(request.query.id);
+  }
+  // Let the user know if there was a db error
+  else params.error = data.errorMessage;
+  
+  if (dogs) {
+    params.dogs = dogs;
+  }
+  // Let the user know if there was a db error
+  else params.error = data.errorMessage;
 
   // Send the log list
   request.query.raw
     ? reply.send(params)
-    : reply.view("/src/pages/admin.hbs", params);
+    : reply.view("/src/pages/index.hbs", params);
 });
 
 /**

@@ -87,21 +87,27 @@ fastify.get("/", async (request, reply) => {
  */
 fastify.post("/", async (request, reply) => { 
   // We only send seo if the client is requesting the front-end ui
-  let params = request.query.raw ? {} : { seo: seo };
-  // Flag to indicate we want to show the poll results instead of the poll form
-  params.results = true;
-  let dogs;
+  let params = request.query.raw ? {} : { seo: seo },
+      dogs;
+  
+  if (
+    !request.body.key ||
+    request.body.key.length < 1 ||
+    !process.env.ADMIN_KEY ||
+    request.body.key !== process.env.ADMIN_KEY
+  ) {
+    console.error("Auth fail");
 
-  // We have a vote - send to the db helper to process and return results
-  if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
-    dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
-    if (dogs) {
-      // We send the choices and numbers in parallel arrays
-      params.dogs = dogs;
+    // Auth failed, return the log data plus a failed flag
+    params.failed = "La contraseña está mal";
+  } else {
+    if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
+      dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
+      if (dogs) {
+        params.dogs = dogs;
+      }
     }
   }
-  params.error = dogs ? null : data.errorMessage;
-
   // Return the info to the client
   request.query.raw
     ? reply.send(params)
@@ -126,6 +132,26 @@ fastify.get("/logs", async (request, reply) => {
   request.query.raw
     ? reply.send(params)
     : reply.view("/src/pages/admin.hbs", params);
+});
+
+/**
+ * Admin endpoint returns log of votes
+ *
+ * Send raw json or the admin handlebars page
+ */
+fastify.get("/perros", async (request, reply) => {
+  let params = {};
+
+  let dogs;
+
+  dogs = await db.getDogs();
+  if (dogs) {
+    // We send the choices and numbers in parallel arrays
+    params.dogs = dogs;
+  }
+
+  // Send the log list
+  reply.send(params);
 });
 
 /**

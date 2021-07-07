@@ -137,21 +137,28 @@
           <h3 class="col-2">
             {{this.nombre}}
           </h3>
-          <pclass="col-2">
-            {{this.nombre}}
+          <p class="col-2">
+            {{this.edad}}
+          </p>
+          <p class="col-2">
+            {{this.edad}}
           </p>
           {{/each}}
         </div>
         <!-- Call the server post endpoint when the user submits an option in the poll -->
         <form method="post" action="/">
           <!-- The server script returns the list of language options to offer in the poll -->
-          {{#each optionNames}}
-          <input type="file" id="{{this}}" name="language" value="{{this}}" required />
-          <label for="{{this}}">{{this}}</label>
-          {{/each}}
+          <label for="imgFile">Imagen</label>
+          <input type="file" id="imgFile" name="img" required />
+          <label for="dogName">Nombre</label>
+          <input type="text" id="dogName" name="nombre" required />
+          <label for="dogAge">Edad (meses)</label>
+          <input type="number" id="dogAge" name="edad" required />
+          <label for="dogSex">Sexo</label>
+          <input type="number" id="dogAge" name="edad" required />
           <br /><br />
           <button type="submit">
-            Submit
+            Enviar
           </button>
         </form>
         <!-- ADD LINK FROM README NEXT STEPS -->

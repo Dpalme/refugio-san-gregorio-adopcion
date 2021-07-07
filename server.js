@@ -139,13 +139,7 @@ fastify.get("/delete", async (request, reply) => {
   // Get the log history from the db
   let dogs;
   if (request.query.id) {
-    dogs = await db.deleteDog(request.query.id);
-  }
-  // Let the user know if there was a db error
-  else params.error = data.errorMessage;
-  
-  if (dogs) {
-    params.dogs = dogs;
+    await db.deleteDog(request.query.id);
   }
   // Let the user know if there was a db error
   else params.error = data.errorMessage;

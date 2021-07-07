@@ -142,9 +142,10 @@ module.exports = {
       await db.run("DELETE FROM Perros WHERE id = ?;", id);
 
       // Return the dogs so far
-      return await db.all("SELECT * from Perros");
+      return true;
     } catch (dbError) {
       console.error(dbError);
+      return false;
     }
   },
   

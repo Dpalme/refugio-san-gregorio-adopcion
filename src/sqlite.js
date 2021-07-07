@@ -32,21 +32,16 @@ dbWrapper
       if (!exists) {
         // Database doesn't exist yet - create Choices and Log tables
         await db.run(
-          "CREATE TABLE Choices (id INTEGER PRIMARY KEY AUTOINCREMENT, language TEXT, picks INTEGER)"
-        );
-
-        // Add default choices to table
-        await db.run(
-          "INSERT INTO Choices (language, picks) VALUES ('HTML', 0), ('JavaScript', 0), ('CSS', 0)"
+          "CREATE TABLE Perros (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, edad INTEGER, sexo INTEGER, img TEXT)"
         );
 
         // Log can start empty - we'll insert a new record whenever the user chooses a poll option
         await db.run(
-          "CREATE TABLE Log (id INTEGER PRIMARY KEY AUTOINCREMENT, choice TEXT, time STRING)"
+          "CREATE TABLE Log (id INTEGER PRIMARY KEY AUTOINCREMENT, perroId INTEGER, time STRING)"
         );
       } else {
         // We have a database already - write Choices records to log for info
-        console.log(await db.all("SELECT * from Choices"));
+        console.log(await db.all("SELECT * from Perros"));
 
         //If you need to remove a table from the database use this syntax
         //db.run("DROP TABLE Logs"); //will fail if the table doesn't exist
@@ -68,7 +63,7 @@ module.exports = {
   getOptions: async () => {
     // We use a try catch block in case of db errors
     try {
-      return await db.all("SELECT * from Choices");
+      return await db.all("SELECT * from Perros");
     } catch (dbError) {
       // Database connection error
       console.error(dbError);
@@ -76,37 +71,33 @@ module.exports = {
   },
 
   /**
-   * Process a user vote
+   * Process a new dog
    *
-   * Receive the user vote string from server
+   * Receive the user dog string from server
    * Add a log entry
-   * Find and update the chosen option
-   * Return the updated list of votes
+   * Add a new dog
+   * Return the updated list of dogs
    */
-  processVote: async vote => {
+  processDog: async (name, edad, sexo, img) => {
     // Insert new Log table entry indicating the user choice and timestamp
     try {
-      // Check the vote is valid
-      const option = await db.all(
-        "SELECT * from Choices WHERE language = ?",
-        vote
-      );
-      if (option.length > 0) {
+      await db.run("INSERT INTO Dogs (name, edad, sexo, img) VALUES (?, ?, ?, ?)", [
+          name,
+          edad,
+          sexo,
+          img
+        ]);
+        
         // Build the user data from the front-end and the current time into the sql query
-        await db.run("INSERT INTO Log (choice, time) VALUES (?, ?)", [
+        await db.run("INSERT INTO Log (dogId, time) VALUES (?, ?)", [
           vote,
           new Date().toISOString()
         ]);
-
-        // Update the number of times the choice has been picked by adding one to it
-        await db.run(
-          "UPDATE Choices SET picks = picks + 1 WHERE language = ?",
-          vote
-        );
       }
 
-      // Return the choices so far - page will build these into a chart
-      return await db.all("SELECT * from Choices");
+      // Return the dogs so far
+      return await db.all("SELECT * from Dogs");
+        
     } catch (dbError) {
       console.error(dbError);
     }

@@ -104,72 +104,57 @@
       </p>
       {{else}}
       <!-- Server returns a flag when the user has submitted a choice and we show the results -->
-      <
-      <div id="dogs">
-        <h2>
-        Perros
-      </h2>
-      <div class="poll-results">
-        <p class="mb-md">
-          Estos son los perros registrados en adopción
-        </p>
-        <div class="grid">
-          {{#each dogs }}
-          <img class="col-4" src="{{this.img}}">
-          <h3 class="col-2">
-            {{this.nombre}}
-          </h3>
-          <p class="col-2">
-            {{this.edad}}
-          </p>
-          <p class="col-2">
-            {{this.edad}}
-          </p>
-          {{/each}}
+      <div class="grid relative">
+        <div id="dogs" class="col-6">
+          <h2>Perros</h2>
+          <div class="poll-results">
+            <p class="mb-md">Estos son los perros registrados en adopción</p>
+            <div class="grid">
+              {{#each dogs }}
+              <img class="col-4" src="">
+              <h3 class="col-2">Nombre</h3>
+              <p class="col-2">Edad</p>
+              <p class="col-2">Sexo</p>
+              {{/each}}
+            </div>
+          </div>
         </div>
-        <!-- If the user hasn't already made a choice we show the poll -->
-      </div>
-      </div>
-      
-      <h2 class="mb-sm">
-        Agregar Perro
-      </h2>
-      <div class="poll-form">
-        <!-- Call the server post endpoint when the user submits an option in the poll -->
-        <form method="post" action="/">
-          <!-- The server script returns the list of language options to offer in the poll -->
-          <label for="imgFile">Imagen</label>
-          <input type="file" id="imgFile" name="img" required />
-          <label for="dogName">Nombre</label>
-          <input type="text" id="dogName" name="nombre" required />
-          <label for="dogAge">Edad (meses)</label>
-          <input type="number" id="dogAge" name="edad" required />
-          <label for="dogSex">Sexo</label>
-          <select id="dogSex" name="dogSex">
-            <option value="Macho">Macho</option>
-            <option value="Hembra">Hembra</option>
-          </select>
-          <br /><br />
-          <button type="submit" class="rounded-lg px-lg">
-            Enviar
-          </button>
-        </form>
-        <!-- ADD LINK FROM README NEXT STEPS -->
-        
+        <div class="col-6" id="add">
+          <h2 class="mb-sm">Agregar Perro</h2>
+          <div class="poll-form">
+            <!-- Call the server post endpoint when the user submits an option in the poll -->
+            <form method="post" action="/">
+              <!-- The server script returns the list of language options to offer in the poll -->
+              <label for="imgFile">Imagen</label>
+              <input type="file" id="imgFile" name="imgBlob" onchanged="processImage()" required />
+              <input type="text" id="imgB64" name="img" class="d-none" required />
+              <label for="dogName">Nombre</label>
+              <input type="text" id="dogName" name="nombre" required />
+              <label for="dogAge">Edad (meses)</label>
+              <input type="number" id="dogAge" name="edad" required />
+              <label for="dogSex">Sexo</label>
+              <select id="dogSex" name="dogSex">
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+              <button type="submit" class="rounded-lg px-lg mt-md">Enviar</button>
+            </form>
+          </div>  
+        </div>
       </div>
       {{/if}}
-
     </div>
   </section>
-  <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
-  <section>
-    <footer class="footer">
-    <div class="links"></div>
-    <a href="/">Perros</a>
-    <span class="divider">|</span>
-    <a href="/logs">Agregar</a>
-  </footer>
-  </section>
+  <script>
+    function processImage() {
+      var file = document.getElementById('imgFile')['files'][0];
+      var reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById('imgB64').value = reader.result.replace("data:", "").replace(/^.+,/, "");
+      }  
+      reader.readAsDataURL(file);
+    }
+  </script>
 </body>
 
 </html>

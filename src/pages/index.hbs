@@ -112,40 +112,69 @@
       {{else}}
       <!-- Server returns a flag when the user has submitted a choice and we show the results -->
       <div class="grid relative">
-        <div class="col-6" id="add">
+        <div class="col-3" id="add">
           <h2 class="mb-sm">Agregar Perro</h2>
-          <div class="poll-form">
-            <!-- Call the server post endpoint when the user submits an option in the poll -->
-            <form method="post" action="/">
-              <!-- The server script returns the list of language options to offer in the poll -->
-              <label for="imgFile">Imagen</label>
-              <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required />
-              <input type="text" id="imgB64" name="img" class="d-none" required />
-              <label for="dogName">Nombre</label>
-              <input type="text" id="dogName" name="nombre" required />
-              <label for="dogAge">Edad (meses)</label>
-              <input type="number" id="dogAge" name="edad" required />
-              <label for="dogSex">Sexo</label>
-              <select id="dogSex" name="sexo">
-                <option value="Macho">Macho</option>
-                <option value="Hembra">Hembra</option>
-              </select>
-              <button type="submit" class="rounded-lg px-lg mt-md">Enviar</button>
-            </form>
-          </div>  
+          <!-- Call the server post endpoint when the user submits an option in the poll -->
+          <form method="post" action="/" class="w-f overflow-h">
+            <!-- The server script returns the list of language options to offer in the poll -->
+            <label for="imgFile">Imagen</label>
+            <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required class="w-100" />
+            <input type="text" id="imgB64" name="img" class="d-none" required />
+            <label for="dogName">Nombre</label>
+            <input type="text" id="dogName" name="nombre" required />
+            <label for="dogAge">Edad (meses)</label>
+            <input type="number" id="dogAge" name="edad" required />
+            <label for="dogSex">Sexo</label>
+            <select id="dogSex" name="sexo">
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
+            <button type="submit" class="rounded-lg px-lg mt-md">Enviar</button>
+          </form>
         </div>
-        <div id="dogs" class="col-6">
+        <div id="dogs" class="col-9">
           <h2>Perros</h2>
           <div class="poll-results">
             <p class="mb-md">Estos son los perros registrados en adopción</p>
-            <div class="grid">
-              <p class="col-t bold">Foto</p>
-              <p class="col-t bold">Nombre</p>
-              <p class="col-t bold">Edad/Sexo</p>
+            <table class="w-f">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nombre</th>
+                  <th>Edad/Sexo</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each dogs }}
+                <tr>
+                  <td><img class="col-2" src="data:image/png;base64,{{this.img}}"></td>
+                  <td>Nom</td>
+                  <td>ed</td>
+                  <td>x</td>
+                </tr>
+                <p class="col-3 align-center">{{this.nombre}}</p>
+                <p class="col-4 align-center">{{this.edad}}/{{this.sexo}}</p>
+                <button class="col-3 align-center lh-md">X</button>
+                {{/each}}
+                <tr>
+                  <td></td>
+                  <td>Nom</td>
+                  <td>ed</td>
+                  <td>x</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="grid text-c">
+              <p class="col-2 bold">Foto</p>
+              <p class="col-3 bold">Nombre</p>
+              <p class="col-4 bold">Edad/Sexo</p>
+              <p class="col-3 bold">Eliminar</p>
               {{#each dogs }}
-              <img class="col-t" src="data:image/png;base64,{{this.img}}">
-              <p class="col-t align-center">{{this.nombre}}</p>
-              <p class="col-t align-center">{{this.edad}}/{{this.sexo}}</p>
+              <img class="col-2" src="data:image/png;base64,{{this.img}}">
+              <p class="col-3 align-center">{{this.nombre}}</p>
+              <p class="col-4 align-center">{{this.edad}}/{{this.sexo}}</p>
+              <button class="col-3 align-center lh-md">X</button>
               {{/each}}
             </div>
           </div>

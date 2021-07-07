@@ -99,7 +99,7 @@ fastify.post("/", async (request, reply) => {
     console.error("Auth fail");
 
     // Auth failed, return the log data plus a failed flag
-    params.failed = "La contraseña está mal";
+    params.error = "La contraseña está mal";
   } else {
     if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
       dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);

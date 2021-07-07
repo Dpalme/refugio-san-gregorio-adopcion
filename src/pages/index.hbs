@@ -48,13 +48,13 @@
       <!-- This is the start of content for our page -->
       <h1>Manejo Refugio San Gregorio</h1>
       <p class="mb-lg">
-        Ver lo perros que tenemos en adopcióny agregar nuevos.
+        Ver lo perros que tenemos en adopción y agregar nuevos.
       </p>
       {{#if error}}
-      <p class="error">
+      <p class="red">
         {{error}}
       </p>
-      {{else}}
+      {{/if}}
       <!-- Server returns a flag when the user has submitted a choice and we show the results -->
       <div class="grid relative">
         <div class="col-3" id="add">
@@ -75,7 +75,7 @@
               <option value="Hembra">Hembra</option>
             </select>
             <label for="contrasena">Contraseña</label>
-            <input type="number" id="contrasena" name="key" required />
+            <input type="password" id="contrasena" name="key" required />
             <button type="submit" class="rounded-lg px-lg mt-md">Enviar</button>
           </form>
         </div>
@@ -108,7 +108,6 @@
           </div>
         </div>
       </div>
-      {{/if}}
     </div>
   </section>
   <script>

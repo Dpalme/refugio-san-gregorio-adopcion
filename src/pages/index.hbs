@@ -138,45 +138,26 @@
             <p class="mb-md">Estos son los perros registrados en adopción</p>
             <table class="w-f">
               <thead>
-                <tr>
-                  <th>Foto</th>
-                  <th>Nombre</th>
-                  <th>Edad/Sexo</th>
-                  <th>Eliminar</th>
+                <tr class="py-md">
+                  <th style="width:10%">ID</th>
+                  <th style="width:10%">Foto</th>
+                  <th style="width:35%">Nombre</th>
+                  <th style="width:35%">Edad/Sexo</th>
+                  <th style="width:10%">Eliminar</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="text-c">
                 {{#each dogs }}
                 <tr>
-                  <td><img class="col-2" src="data:image/png;base64,{{this.img}}"></td>
-                  <td>Nom</td>
-                  <td>ed</td>
-                  <td>x</td>
+                  <td>{{this.id}}</td>
+                  <td><img class="w-f py-sm" src="data:image/png;base64,{{this.img}}"></td>
+                  <td>{{this.nombre}}</td>
+                  <td>{{this.edad}}/{{this.sexo}}</td>
+                  <td><button class="w-f align-center lh-md" onclick="deleteDog({{this.id}})">X</button></td>
                 </tr>
-                <p class="col-3 align-center">{{this.nombre}}</p>
-                <p class="col-4 align-center">{{this.edad}}/{{this.sexo}}</p>
-                <button class="col-3 align-center lh-md">X</button>
                 {{/each}}
-                <tr>
-                  <td></td>
-                  <td>Nom</td>
-                  <td>ed</td>
-                  <td>x</td>
-                </tr>
               </tbody>
             </table>
-            <div class="grid text-c">
-              <p class="col-2 bold">Foto</p>
-              <p class="col-3 bold">Nombre</p>
-              <p class="col-4 bold">Edad/Sexo</p>
-              <p class="col-3 bold">Eliminar</p>
-              {{#each dogs }}
-              <img class="col-2" src="data:image/png;base64,{{this.img}}">
-              <p class="col-3 align-center">{{this.nombre}}</p>
-              <p class="col-4 align-center">{{this.edad}}/{{this.sexo}}</p>
-              <button class="col-3 align-center lh-md">X</button>
-              {{/each}}
-            </div>
           </div>
         </div>
       </div>
@@ -191,6 +172,10 @@
         document.getElementById('imgB64').value = reader.result.replace("data:", "").replace(/^.+,/, "");
       }  
       reader.readAsDataURL(file);
+    }
+    
+    function  deleteDog(id) {
+      
     }
   </script>
 </body>

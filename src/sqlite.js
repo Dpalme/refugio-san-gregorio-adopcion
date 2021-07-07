@@ -136,6 +136,23 @@ module.exports = {
    *
    * Destroy everything in Log table
    */
+  deleteDog: async (id) => {
+    try {
+      // Delete the logs
+      await db.run("DELETE FROM Perros WHERE id = ?;", id);
+
+      // Return the dogs so far
+      return await db.all("SELECT * from Perros");
+    } catch (dbError) {
+      console.error(dbError);
+    }
+  },
+  
+  /**
+   * Undo last dog
+   *
+   * Destroy everything in Log table
+   */
   undoLast: async () => {
     try {
       // Delete the logs

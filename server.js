@@ -129,6 +129,26 @@ fastify.get("/logs", async (request, reply) => {
 });
 
 /**
+ * User endpoint deletes a dog
+ *
+ * Send raw json or the admin handlebars page
+ */
+fastify.get("/delete", async (request, reply) => {
+  let params = request.query.raw ? {} : { seo: seo };
+
+  // Get the log history from the db
+  const dogs = await db.deleteDog(request.);
+
+  // Let the user know if there's an error
+  params.error = params.optionHistory ? null : data.errorMessage;
+
+  // Send the log list
+  request.query.raw
+    ? reply.send(params)
+    : reply.view("/src/pages/admin.hbs", params);
+});
+
+/**
  * Admin endpoint to empty all logs
  *
  * Requires authorization (see setup instructions in README)

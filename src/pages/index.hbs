@@ -26,7 +26,8 @@
   <meta name="twitter:card" content="summary">
 
   <!-- Import the webpage's stylesheet -->
-  <link rel="stylesheet" href="/style.css" />
+  <link href="https://dpalmer.in/Peoria/css/normalize.css" rel="stylesheet">
+  <link href="https://dpalmer.in/Peoria/css/peoria-0-6-0.css" rel="stylesheet">
 
   <!-- Show choice chart on poll submission -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -89,13 +90,13 @@
 </head>
 
 <body>
-  <div class="wrapper">
+  <section>
     <div class="content" role="main">
 
       <!-- This is the start of content for our page -->
-      <h1>Hello SQLite!</h1>
+      <h1>Manejo Refugio San Gregorio</h1>
       <p>
-        A poll built with Chart.js and powered by Node.js with a {{seo.db}} database.
+        Ver lo perros que tenemos en adopcióny agregar nuevos.
       </p>
       {{#if error}}
       <p class="error">
@@ -104,7 +105,6 @@
       
       {{else}}
       <!-- Server returns a flag when the user has submitted a choice and we show the results -->
-      
       {{#if results}}
       <h2>
         Results
@@ -149,18 +149,8 @@
       {{/if}}
       {{/if}}
 
-      <!-- Instructions on using this project -->
-      <div class="instructions">
-        <h2>
-          Using this project
-        </h2>
-        <p>
-          This is the Glitch <strong>Hello {{seo.db}}</strong> project. You can use it to build your own app. Check out README.md in the editor for more info and next steps you can take!
-        </p>
-      </div>
-
     </div>
-  </div>
+  </section>
   <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
   <footer class="footer">
     <div class="links"></div>

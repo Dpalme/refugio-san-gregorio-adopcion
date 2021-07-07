@@ -59,16 +59,15 @@ fastify.get("/", async (request, reply) => {
   let params = request.query.raw ? {} : { seo: seo };
 
   // Get the available choices from the database
-  const options = await db.getOptions();
-  if (options) {
-    params.optionNames = options.map(choice => choice.language);
-    params.optionCounts = options.map(choice => choice.picks);
+  const dogs = await db.getDogs();
+  if (dogs) {
+    params.dogs = dogs;
   }
   // Let the user know if there was a db error
   else params.error = data.errorMessage;
 
   // Check in case the data is empty or not setup yet
-  if (options && params.optionNames.length < 1)
+  if (dogs && dogs.length < 1)
     params.setup = data.setupMessage;
 
   // ADD PARAMS FROM README NEXT STEPS HERE

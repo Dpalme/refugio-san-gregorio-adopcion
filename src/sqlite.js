@@ -53,14 +53,13 @@ dbWrapper
 
 // Our server script will call these methods to connect to the db
 module.exports = {
-  
   /**
-   * Get the options in the database
+   * Get the dogs in the database
    *
-   * Return everything in the Choices table
+   * Return everything in the Perros table
    * Throw an error in case of db connection issues
    */
-  getOptions: async () => {
+  getDogs: async () => {
     // We use a try catch block in case of db errors
     try {
       return await db.all("SELECT * from Perros");
@@ -73,7 +72,7 @@ module.exports = {
   /**
    * Process a new dog
    *
-   * Receive the user dog string from server
+   * Receive the user dog form from server
    * Add a log entry
    * Add a new dog
    * Return the updated list of dogs
@@ -81,23 +80,20 @@ module.exports = {
   processDog: async (name, edad, sexo, img) => {
     // Insert new Log table entry indicating the user choice and timestamp
     try {
-      await db.run("INSERT INTO Dogs (name, edad, sexo, img) VALUES (?, ?, ?, ?)", [
-          name,
-          edad,
-          sexo,
-          img
-        ]);
-        
-        // Build the user data from the front-end and the current time into the sql query
-        await db.run("INSERT INTO Log (dogId, time) VALUES (?, ?)", [
-          vote,
-          new Date().toISOString()
-        ]);
-      }
+      await db.run(
+        "INSERT INTO Dogs (name, edad, sexo, img) VALUES (?, ?, ?, ?)",
+        [name, edad, sexo, img]
+      );
 
+      var dogId = await db.run("SELECT id from Dogs ORDER BY id DESC LIMIT 1");
+
+      // Build the user data from the front-end and the current time into the sql query
+      await db.run("INSERT INTO Log (dogId, time) VALUES (?, ?)", [
+        dogId,
+        new Date().toISOString()
+      ]);
       // Return the dogs so far
       return await db.all("SELECT * from Dogs");
-        
     } catch (dbError) {
       console.error(dbError);
     }
@@ -119,18 +115,31 @@ module.exports = {
   },
 
   /**
-   * Clear logs and reset votes
+   * Clear logs
    *
    * Destroy everything in Log table
-   * Reset votes in Choices table to zero
    */
   clearHistory: async () => {
     try {
       // Delete the logs
       await db.run("DELETE from Log");
 
-      // Reset the vote numbers
-      await db.run("UPDATE Choices SET picks = 0");
+      // Return empty array
+      return [];
+    } catch (dbError) {
+      console.error(dbError);
+    }
+  },
+  
+  /**
+   * Undo last dog
+   *
+   * Destroy everything in Log table
+   */
+  undoLast: async () => {
+    try {
+      // Delete the logs
+      await db.run("DELETE FROM Perros WHERE id = (SELECT MAX(id) FROM Perros);");
 
       // Return empty array
       return [];

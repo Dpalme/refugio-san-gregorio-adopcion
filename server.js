@@ -88,7 +88,6 @@ fastify.get("/", async (request, reply) => {
 fastify.post("/", async (request, reply) => { 
   // We only send seo if the client is requesting the front-end ui
   let params = request.query.raw ? {} : { seo: seo };
-
   // Flag to indicate we want to show the poll results instead of the poll form
   params.results = true;
   let dogs;

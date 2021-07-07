@@ -81,19 +81,19 @@ module.exports = {
     // Insert new Log table entry indicating the user choice and timestamp
     try {
       await db.run(
-        "INSERT INTO Dogs (nombre, edad, sexo, img) VALUES (?, ?, ?, ?)",
+        "INSERT INTO Perros (nombre, edad, sexo, img) VALUES (?, ?, ?, ?)",
         [name, edad, sexo, img]
       );
 
-      var dogId = await db.run("SELECT id from Dogs ORDER BY id DESC LIMIT 1");
+      var dogId = await db.run("SELECT id from Perros ORDER BY id DESC LIMIT 1");
 
       // Build the user data from the front-end and the current time into the sql query
-      await db.run("INSERT INTO Log (dogId, time) VALUES (?, ?)", [
+      await db.run("INSERT INTO Log (perroId, time) VALUES (?, ?)", [
         dogId,
         new Date().toISOString()
       ]);
       // Return the dogs so far
-      return await db.all("SELECT * from Dogs");
+      return await db.all("SELECT * from Perros");
     } catch (dbError) {
       console.error(dbError);
     }

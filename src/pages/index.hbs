@@ -110,11 +110,15 @@
           <div class="poll-results">
             <p class="mb-md">Estos son los perros registrados en adopción</p>
             <div class="grid">
+              <p class="col-q bold">Foto</p>
+              <p class="col-q bold">Nombre</p>
+              <p class="col-q bold">Edad</p>
+              <p class="col-q bold">Sexo</p>
               {{#each dogs }}
-              <img class="col-4" src="">
-              <h3 class="col-2">Nombre</h3>
-              <p class="col-2">Edad</p>
-              <p class="col-2">Sexo</p>
+              <img class="col-q" src="">
+              <p class="col-q">{{this.nombre}}</p>
+              <p class="col-q">{{this.edad}}</p>
+              <p class="col-q">{{this.sexo}}</p>
               {{/each}}
             </div>
           </div>
@@ -126,14 +130,14 @@
             <form method="post" action="/">
               <!-- The server script returns the list of language options to offer in the poll -->
               <label for="imgFile">Imagen</label>
-              <input type="file" id="imgFile" name="imgBlob" onchanged="processImage()" required />
+              <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required />
               <input type="text" id="imgB64" name="img" class="d-none" required />
               <label for="dogName">Nombre</label>
               <input type="text" id="dogName" name="nombre" required />
               <label for="dogAge">Edad (meses)</label>
               <input type="number" id="dogAge" name="edad" required />
               <label for="dogSex">Sexo</label>
-              <select id="dogSex" name="dogSex">
+              <select id="dogSex" name="sexo">
                 <option value="Macho">Macho</option>
                 <option value="Hembra">Hembra</option>
               </select>

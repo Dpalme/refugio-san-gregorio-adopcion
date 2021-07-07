@@ -8,7 +8,7 @@
 const fs = require("fs");
 
 // Initialize the database
-const dbFile = "./.data/choices.db";
+const dbFile = "./.data/perros.db";
 const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
@@ -32,7 +32,7 @@ dbWrapper
       if (!exists) {
         // Database doesn't exist yet - create Choices and Log tables
         await db.run(
-          "CREATE TABLE Perros (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, edad INTEGER, sexo INTEGER, img TEXT)"
+          "CREATE TABLE Perros (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, edad INTEGER, sexo INTEGER, img TEXT)"
         );
 
         // Log can start empty - we'll insert a new record whenever the user chooses a poll option
@@ -81,7 +81,7 @@ module.exports = {
     // Insert new Log table entry indicating the user choice and timestamp
     try {
       await db.run(
-        "INSERT INTO Dogs (name, edad, sexo, img) VALUES (?, ?, ?, ?)",
+        "INSERT INTO Dogs (nombre, edad, sexo, img) VALUES (?, ?, ?, ?)",
         [name, edad, sexo, img]
       );
 

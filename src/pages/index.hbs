@@ -124,18 +124,29 @@
       </div>
       
       {{else}}
-      <h2>
-        Poll
+      <h2 class="mb-sm">
+        Perros
       </h2>
       <div class="poll-form">
-        <p>
-          What do you like coding most?
+        <p class="mb-md">
+          Estos son los perros registrados en adopción
         </p>
+        <div class="grid">
+          {{#each dogs }}
+          <img class="col-4" src="{{this.img}}">
+          <h3 class="col-2">
+            {{this.nombre}}
+          </h3>
+          <pclass="col-2">
+            {{this.nombre}}
+          </p>
+          {{/each}}
+        </div>
         <!-- Call the server post endpoint when the user submits an option in the poll -->
         <form method="post" action="/">
           <!-- The server script returns the list of language options to offer in the poll -->
           {{#each optionNames}}
-          <input type="radio" id="{{this}}" name="language" value="{{this}}" required />
+          <input type="file" id="{{this}}" name="language" value="{{this}}" required />
           <label for="{{this}}">{{this}}</label>
           {{/each}}
           <br /><br />
@@ -152,17 +163,14 @@
     </div>
   </section>
   <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
-  <footer class="footer">
+  <section>
+    <footer class="footer">
     <div class="links"></div>
-    <a href="/">Home</a>
+    <a href="/">Perros</a>
     <span class="divider">|</span>
-    <a href="/logs">Admin</a>
-    <a class="btn--remix" target="_top" href="https://glitch.com/edit/#!/remix/glitch-hello-sqlite">
-      <img src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2FLogo_Color.svg?v=1618199565140"
-        alt="" />
-      Remix on Glitch
-    </a>
+    <a href="/logs">Agregar</a>
   </footer>
+  </section>
 </body>
 
 </html>

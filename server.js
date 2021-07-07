@@ -91,18 +91,17 @@ fastify.post("/", async (request, reply) => {
 
   // Flag to indicate we want to show the poll results instead of the poll form
   params.results = true;
-  let options;
+  let dogs;
 
   // We have a vote - send to the db helper to process and return results
-  if (request.body.language) {
-    options = await db.processVote(request.body.language);
-    if (options) {
+  if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
+    dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
+    if (dogs) {
       // We send the choices and numbers in parallel arrays
-      params.optionNames = options.map(choice => choice.language);
-      params.optionCounts = options.map(choice => choice.picks);
+      params.dogs = dogs;
     }
   }
-  params.error = options ? null : data.errorMessage;
+  params.error = dogs ? null : data.errorMessage;
 
   // Return the info to the client
   request.query.raw

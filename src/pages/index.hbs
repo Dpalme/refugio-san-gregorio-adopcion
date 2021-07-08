@@ -122,7 +122,8 @@
     
     function deleteDog(dogId) {
       if (confirm('En verdad quieres borrar ' + dogId)) {
-        $.get('/delete', {id: dogId}).done(window.location.reload());
+        cntr = prompt('Ingresa la contraseña');
+        $.get('/delete', {id: dogId, key: cntr}).done(window.location.reload());
       }
     }
   </script>

@@ -164,11 +164,22 @@ fastify.get("/delete", async (request, reply) => {
 
   // Get the log history from the db
   let dogs;
-  if (request.query.id) {
-    await db.deleteDog(request.query.id);
+  if (
+    !request.query.key ||
+    request.query.key.length < 1 ||
+    !process.env.ADMIN_KEY ||
+    request.query.key !== process.env.ADMIN_KEY
+  ) {
+    console.error("Auth fail");
+
+    // Auth failed, return the log data plus a failed flag
+    params.error = "La contraseña está mal";
+  } else {
+    if (request.query.id) {
+      await db.deleteDog(request.query.id);
+    }
   }
-  // Let the user know if there was a db error
-  else params.error = data.errorMessage;
+  
 
   // Send the log list
   request.query.raw

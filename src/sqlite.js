@@ -32,7 +32,7 @@ dbWrapper
       if (!exists) {
         // Database doesn't exist yet - create Choices and Log tables
         await db.run(
-          "CREATE TABLE Perros (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, edad INTEGER, sexo INTEGER, img TEXT)"
+          "CREATE TABLE Perros (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, edad TEXT, sexo INTEGER, img TEXT, added STRING)"
         );
 
         // Log can start empty - we'll insert a new record whenever the user chooses a poll option
@@ -81,11 +81,13 @@ module.exports = {
     // Insert new Log table entry indicating the user choice and timestamp
     try {
       await db.run(
-        "INSERT INTO Perros (nombre, edad, sexo, img) VALUES (?, ?, ?, ?)",
-        [name, edad, sexo, img]
+        "INSERT INTO Perros (nombre, edad, sexo, img, added) VALUES (?, ?, ?, ?, ?)",
+        [name, edad, sexo, img, new Date().toISOString()]
       );
 
-      var dogId = await db.run("SELECT id from Perros ORDER BY id DESC LIMIT 1");
+      var dogId = await db.run(
+        "SELECT id from Perros ORDER BY id DESC LIMIT 1"
+      );
 
       // Build the user data from the front-end and the current time into the sql query
       await db.run("INSERT INTO Log (perroId, time) VALUES (?, ?)", [
@@ -119,10 +121,11 @@ module.exports = {
    *
    * Destroy everything in Log table
    */
-  clearHistory: async () => {
+  resetDb: async () => {
     try {
       // Delete the logs
       await db.run("DELETE from Log");
+      await db.run("DELETE from Perros");
 
       // Return empty array
       return [];
@@ -130,13 +133,13 @@ module.exports = {
       console.error(dbError);
     }
   },
-  
+
   /**
    * Undo last dog
    *
    * Destroy everything in Log table
    */
-  deleteDog: async (id) => {
+  deleteDog: async id => {
     try {
       // Delete the logs
       await db.run("DELETE FROM Perros WHERE id = ?;", id);
@@ -148,7 +151,7 @@ module.exports = {
       return false;
     }
   },
-  
+
   /**
    * Undo last dog
    *
@@ -157,7 +160,9 @@ module.exports = {
   undoLast: async () => {
     try {
       // Delete the logs
-      await db.run("DELETE FROM Perros WHERE id = (SELECT MAX(id) FROM Perros);");
+      await db.run(
+        "DELETE FROM Perros WHERE id = (SELECT MAX(id) FROM Perros);"
+      );
 
       // Return empty array
       return [];

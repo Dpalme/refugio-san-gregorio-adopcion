@@ -205,7 +205,7 @@ fastify.post("/reset", async (request, reply) => {
     params.optionHistory = await db.getLogs();
   } else {
     // We have a valid key and can clear the log
-    params.optionHistory = await db.clearHistory();
+    params.optionHistory = await db.resetDb();
 
     // Check for errors - method would return false value
     params.error = params.optionHistory ? null : data.errorMessage;

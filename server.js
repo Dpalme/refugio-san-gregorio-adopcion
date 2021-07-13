@@ -87,7 +87,7 @@ fastify.get("/", async (request, reply) => {
  * Send vote to database helper
  * Return updated list of votes
  */
-fastify.post("/", async (request, reply) => { 
+fastify.post("/newDog", async (request, reply) => { 
   // We only send seo if the client is requesting the front-end ui
   let params = request.query.raw ? {} : { seo: seo },
       dogs;
@@ -111,9 +111,7 @@ fastify.post("/", async (request, reply) => {
     }
   }
   // Return the info to the client
-  request.query.raw
-    ? reply.send(params)
-    : reply.view("/src/pages/index.hbs", params);
+  reply.view("/src/pages/index.hbs", params);
 });
 
 /**

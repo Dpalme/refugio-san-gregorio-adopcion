@@ -60,7 +60,7 @@
         <div class="col-3" id="add">
           <h2 class="mb-sm">Agregar Perro</h2>
           <!-- Call the server post endpoint when the user submits an option in the poll -->
-          <form method="post" action="/" class="w-f overflow-h">
+          <form method="post" action="./newDog" class="w-f overflow-h">
             <!-- The server script returns the list of language options to offer in the poll -->
             <label for="imgFile">Imagen</label>
             <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required class="w-100" />
@@ -76,7 +76,7 @@
             </select>
             <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" name="key" required />
-            <button type="submit" class="rounded-lg w-f mt-md">Enviar</button>
+            <button onclick="window.location = '../'" type="submit" class="rounded-lg w-f mt-md">Enviar</button>
           </form>
         </div>
         <div id="dogs" class="col-9">

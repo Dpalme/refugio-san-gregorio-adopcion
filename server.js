@@ -111,7 +111,7 @@ fastify.post("/newDog", async (request, reply) => {
     }
   }
   // Return the info to the client
-  reply.view("/src/pages/index.hbs", params);
+  reply.redirect("../");
 });
 
 /**

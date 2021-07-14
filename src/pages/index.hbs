@@ -45,8 +45,8 @@
 
 <body>
   <div class="fixed fullscreen mid-white-bg d-none front-2" id="edit-form">
-    <form method="post" action="./editDog" class="p-lg w-f overflow-h">
-        <a onclick="javascript:document.getElementById('edit-form').classList.add('d-none');">Cerrar</a>
+    <form method="post" action="./editDog" class="p-lg overflow-h">
+        <a class="red h3 mb-lg" onclick="javascript:document.getElementById('edit-form').classList.add('d-none');">Cerrar</a>
         <!-- The server script returns the list of language options to offer in the poll -->
         <input type="text" id="editId" name="dogId" class="d-none" required />
         <label for="imgFileEdit">Imagen</label>
@@ -63,7 +63,7 @@
         </select>
         <label for="contrasenaEdit">Contraseña</label>
         <input type="password" id="contrasenaEdit" name="key" required />
-        <button type="submit" class="rounded-lg w-f mt-md">Confirmar</button>
+        <button type="submit" class="rounded-lg px-lg mt-md">Confirmar</button>
       </form>
   </div>
   <section>

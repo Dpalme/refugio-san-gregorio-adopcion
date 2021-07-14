@@ -31,6 +31,7 @@
 
   <!-- Show choice chart on poll submission -->
   <script src="https://code.jquery.com/jquery-3.6.0.js" type="text/javascript"></script>
+  <script src="https://dpalmer.in/Peoria/peoria-3.js"></script>
   <style>
     .align-center {
       align-self: center;
@@ -88,18 +89,20 @@
                 <tr class="py-md">
                   <th style="width:10%">ID</th>
                   <th style="width:10%">Foto</th>
-                  <th style="width:35%">Nombre</th>
-                  <th style="width:35%">Edad/Sexo</th>
+                  <th style="width:30%">Nombre</th>
+                  <th style="width:30%">Edad/Sexo</th>
+                  <th style="width:10%">Editar</th>
                   <th style="width:10%">Eliminar</th>
                 </tr>
               </thead>
               <tbody class="text-c">
                 {{#each dogs }}
-                <tr>
+                <tr id="dog-{{this.id}}">
                   <td>{{this.id}}</td>
-                  <td><img class="w-f py-sm" src="data:image/png;base64,{{this.img}}"></td>
+                  <td><img class="w-f py-sm" loading="lazy" src="data:image/png;base64,{{this.img}}"></td>
                   <td>{{this.nombre}}</td>
                   <td>{{this.edad}}/{{this.sexo}}</td>
+                  <td><button class="w-f align-center lh-md" onclick="javascript:editDog({{this.id}})">editar</button></td>
                   <td><button class="w-f align-center lh-md" onclick="javascript:deleteDog({{this.id}})">X</button></td>
                 </tr>
                 {{/each}}
@@ -121,6 +124,39 @@
     }
     
     function deleteDog(dogId) {
+      if (confirm('En verdad quieres borrar ' + dogId)) {
+        cntr = prompt('Ingresa la contraseña');
+        $.get('/delete', {id: dogId, key: cntr}).done(window.location.reload());
+        window.location = '../';
+      }
+    }
+    
+    function editDog(dogId) {
+      var options = $('#dog-'+dogId).children,
+          imgField = object({
+            type: 'input',
+            id: 'imgEdit',
+            name: 'imgEditBlob',
+            onchange: 'processImageEdit()',
+            required
+          })
+      append('dog-' + dogId, object({
+             type: 'input'
+             })
+            )
+      <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required class="w-100" />
+            <input type="text" id="imgB64" name="img" class="d-none" required />
+            <label for="dogName">Nombre</label>
+            <input type="text" id="dogName" name="nombre" required />
+            <label for="dogAge">Edad</label>
+            <input type="text" id="dogAge" name="edad" required />
+            <label for="dogSex">Sexo</label>
+            <select id="dogSex" name="sexo">
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
+      
+      
       if (confirm('En verdad quieres borrar ' + dogId)) {
         cntr = prompt('Ingresa la contraseña');
         $.get('/delete', {id: dogId, key: cntr}).done(window.location.reload());

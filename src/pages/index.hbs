@@ -57,6 +57,26 @@
       </p>
       {{/if}}
       <!-- Server returns a flag when the user has submitted a choice and we show the results -->
+      <div class="fullscreen p-lg d-none" id="edit-form">
+        <form method="post" action="./editDog" class="night w-f overflow-h">
+            <!-- The server script returns the list of language options to offer in the poll -->
+            <label for="imgFileEdit">Imagen</label>
+            <input type="file" id="imgFileEdit" name="imgBlob" onchange="processImage('imgFileEdit', 'imgB64Edit')" required class="w-100" />
+            <input type="text" id="imgB64Edit" name="img" class="d-none" required />
+            <label for="dogNameEdit">Nombre</label>
+            <input type="text" id="dogNameEdit" name="nombre" required />
+            <label for="dogAgeEdit">Edad</label>
+            <input type="text" id="dogAgeEdit" name="edad" required />
+            <label for="dogSexEdit">Sexo</label>
+            <select id="dogSexEdit" name="sexo">
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
+            <label for="contrasenaEdit">Contraseña</label>
+            <input type="password" id="contrasenaEdit" name="key" required />
+            <button onclick="window.location = '../'" type="submit" class="rounded-lg w-f mt-md">Confirmar</button>
+          </form>
+      </div>
       <div class="grid relative">
         <div class="col-3" id="add">
           <h2 class="mb-sm">Agregar Perro</h2>
@@ -64,7 +84,7 @@
           <form method="post" action="./newDog" class="w-f overflow-h">
             <!-- The server script returns the list of language options to offer in the poll -->
             <label for="imgFile">Imagen</label>
-            <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required class="w-100" />
+            <input type="file" id="imgFile" name="imgBlob" onchange="processImage('imgFile', 'imgB64')" required class="w-100" />
             <input type="text" id="imgB64" name="img" class="d-none" required />
             <label for="dogName">Nombre</label>
             <input type="text" id="dogName" name="nombre" required />
@@ -114,11 +134,11 @@
     </div>
   </section>
   <script>
-    function processImage() {
+    function processImage(id, b64Id) {
       var file = document.getElementById('imgFile')['files'][0];
       var reader = new FileReader();
       reader.onload = function () {
-        document.getElementById('imgB64').value = reader.result.replace("data:", "").replace(/^.+,/, "");
+        document.getElementById(b64Id).value = reader.result.replace("data:", "").replace(/^.+,/, "");
       }  
       reader.readAsDataURL(file);
     }
@@ -133,67 +153,13 @@
     
     function editDog(dogId) {
       var options = $('#dog-'+dogId).children();
-      let imgField = object({
-            type: 'input',
-            id: 'imgEdit',
-            name: 'imgEditBlob',
-            onchange: 'processImageEdit()',
-            required: true,
-            class: 'w-100'
-          }),
-          imgB64 = object({
-            type: 'input',
-            id: 'imgB64Edit',
-            name: 'imgEdit',
-            required: true,
-            class: 'd-none',
-            value: options[1].children[0].getAttribute('src').slice(21)
-          }),
-          nameField = object({
-            type: 'input',
-            id: 'dogName',
-            name: 'nombre',
-            required: true,
-            value: options[2]
-          }),
-          ageField = object({
-            type: 'input',
-            id: 'dogAge',
-            name: 'edad',
-            required: true,
-            value: options[3].children[0].split('/')[0]
-          }),
-          sexField = object({
-            type: 'select',
-            id: 'dogSex',
-            name: 'sexo',
-            children: [
-              object({
-                type: 'option',
-                value: 'Macho',
-                innerText: Macho
-              }), object({
-                type: 'option',
-                value: 'Hembra',
-                innerText: Hembra
-              })
-            ],
-            value: options[3].children[0].split('/')[1]
-          })
       
-          imgField.setAttribute(type, 'file');
-          nameField.setAttribute(type, 'text');
-          ageField.setAttribute(type, 'text');
-      newOpts = [[imgField, imgB64Field], nameField, ageField, sexField]
-      $.each(options, (i, e) => {
-        e.children = newOpts[i];
-      })
+      document.getElementById('#imgB64Edit').value = options[1].children[0].getAttribute('src').slice(21);
+      document.getElementById('#dogNameEdit').value = options[2].innerText;
+      document.getElementById('#dogAgeEdit').value = options[3].innerText.split('/')[0];
+      document.getElementById('#dogSexEdit').value = options[3].innerText.split('/')[1];
       
-      if (confirm('En verdad quieres borrar ' + dogId)) {
-        cntr = prompt('Ingresa la contraseña');
-        $.get('/delete', {id: dogId, key: cntr}).done(window.location.reload());
-        window.location = '../';
-      }
+      $('#edit-form').show();
     }
   </script>
 </body>

@@ -151,6 +151,24 @@ module.exports = {
       return false;
     }
   },
+  
+  /**
+   * Edit dog by Id
+   *
+   * Destroy everything in Log table
+   */
+  editDog: async (id, name, edad, sexo, img) => {
+    try {
+      // Delete the logs
+      await db.run("DELETE FROM Perros WHERE id = ?;", id);
+
+      // Return the dogs so far
+      return true;
+    } catch (dbError) {
+      console.error(dbError);
+      return false;
+    }
+  },
 
   /**
    * Undo last dog

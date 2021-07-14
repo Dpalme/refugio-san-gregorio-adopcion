@@ -115,6 +115,40 @@ fastify.post("/newDog", async (request, reply) => {
 });
 
 /**
+ * Post route to process user vote
+ *
+ * Retrieve vote from body data
+ * Send vote to database helper
+ * Return updated list of votes
+ */
+fastify.post("/editDog", async (request, reply) => { 
+  // We only send seo if the client is requesting the front-end ui
+  let params = request.query.raw ? {} : { seo: seo },
+      dogs;
+  
+  if (
+    !request.body.key ||
+    request.body.key.length < 1 ||
+    !process.env.ADMIN_KEY ||
+    request.body.key !== process.env.ADMIN_KEY
+  ) {
+    console.error("Auth fail");
+
+    // Auth failed, return the log data plus a failed flag
+    params.error = "La contraseña está mal";
+  } else {
+    if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
+      dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
+      if (dogs) {
+        params.dogs = dogs;
+      }
+    }
+  }
+  // Return the info to the client
+  reply.redirect("../");
+});
+
+/**
  * Admin endpoint returns log of votes
  *
  * Send raw json or the admin handlebars page

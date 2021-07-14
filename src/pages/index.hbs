@@ -137,7 +137,7 @@
   </section>
   <script>
     function processImage(id, b64Id) {
-      var file = document.getElementById('imgFile')['files'][0];
+      var file = document.getElementById(id)['files'][0];
       var reader = new FileReader();
       reader.onload = function () {
         document.getElementById(b64Id).value = reader.result.replace("data:", "").replace(/^.+,/, "");

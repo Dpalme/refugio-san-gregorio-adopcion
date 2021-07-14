@@ -152,7 +152,7 @@ module.exports = {
    */
   editDog: async (id, name, edad, sexo, img) => {
     try {
-      console.log(await db.run("UPDATE Perros SET nombre = '?', edad = '?', sexo = '?', img = '?' WHERE id = ?;", [name, edad, sexo, img, id]));
+      console.log(await db.run("UPDATE Perros SET nombre = ?, edad = ?, sexo = ?, img = ? WHERE id = ?;", [name, edad, sexo, img, id]));
       
       // Return the dogs so far
       return true;

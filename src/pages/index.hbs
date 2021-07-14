@@ -50,7 +50,7 @@
         <!-- The server script returns the list of language options to offer in the poll -->
         <input type="text" id="editId" name="dogId" class="d-none" required />
         <label for="imgFileEdit">Imagen</label>
-        <input type="file" id="imgFileEdit" name="imgBlob" onchange="processImage('imgFileEdit', 'imgB64Edit')" required class="w-100" />
+        <input type="file" accept="image/*"  id="imgFileEdit" name="imgBlob" onchange="processImage('imgFileEdit', 'imgB64Edit')" class="w-100" />
         <input type="text" id="imgB64Edit" name="img" class="d-none" required />
         <label for="dogNameEdit">Nombre</label>
         <input type="text" id="dogNameEdit" name="nombre" required />
@@ -63,7 +63,7 @@
         </select>
         <label for="contrasenaEdit">Contraseña</label>
         <input type="password" id="contrasenaEdit" name="key" required />
-        <button onclick="window.location = '../'" type="submit" class="rounded-lg w-f mt-md">Confirmar</button>
+        <button type="submit" class="rounded-lg w-f mt-md">Confirmar</button>
       </form>
   </div>
   <section>
@@ -86,7 +86,7 @@
           <form method="post" action="./newDog" class="w-f overflow-h">
             <!-- The server script returns the list of language options to offer in the poll -->
             <label for="imgFile">Imagen</label>
-            <input type="file" id="imgFile" name="imgBlob" onchange="processImage('imgFile', 'imgB64')" required class="w-100" />
+            <input type="file" accept="image/*" id="imgFile" name="imgBlob" onchange="processImage('imgFile', 'imgB64')" required class="w-100" />
             <input type="text" id="imgB64" name="img" class="d-none" required />
             <label for="dogName">Nombre</label>
             <input type="text" id="dogName" name="nombre" required />
@@ -99,7 +99,7 @@
             </select>
             <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" name="key" required />
-            <button onclick="window.location = '../'" type="submit" class="rounded-lg w-f mt-md">Enviar</button>
+            <button type="submit" class="rounded-lg w-f mt-md">Enviar</button>
           </form>
         </div>
         <div id="dogs" class="col-9">
@@ -156,7 +156,7 @@
     function editDog(dogId) {
       var options = $('#dog-'+dogId).children();
       
-      document.getElementById('imgB64Edit').value = options[1].children[0].getAttribute('src').slice(21);
+      document.getElementById('imgB64Edit').value = options[1].children[0].getAttribute('src').slice(22);
       document.getElementById('dogNameEdit').value = options[2].innerText;
       document.getElementById('dogAgeEdit').value = options[3].innerText.split('/')[0];
       document.getElementById('dogSexEdit').value = options[3].innerText.split('/')[1];

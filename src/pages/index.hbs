@@ -132,8 +132,8 @@
     }
     
     function editDog(dogId) {
-      var options = $('#dog-'+dogId).children,
-          imgField = object({
+      var options = $('#dog-'+dogId).children();
+      let imgField = object({
             type: 'input',
             id: 'imgEdit',
             name: 'imgEditBlob',
@@ -141,13 +141,13 @@
             required: true,
             class: 'w-100'
           }),
-          imgField = object({
+          imgB64 = object({
             type: 'input',
             id: 'imgB64Edit',
             name: 'imgEdit',
             required: true,
             class: 'd-none',
-            value: options[1].get
+            value: options[1].children[0].getAttribute('src').slice(21)
           }),
           nameField = object({
             type: 'input',
@@ -161,7 +161,7 @@
             id: 'dogAge',
             name: 'edad',
             required: true,
-            value: options[3].split('/')[0]
+            value: options[3].children[0].split('/')[0]
           }),
           sexField = object({
             type: 'select',
@@ -178,13 +178,16 @@
                 innerText: Hembra
               })
             ],
-            value: options[3].split('/')[1]
+            value: options[3].children[0].split('/')[1]
           })
-      append('dog-' + dogId, object({
-             type: 'input'
-             })
-            )
       
+          imgField.setAttribute(type, 'file');
+          nameField.setAttribute(type, 'text');
+          ageField.setAttribute(type, 'text');
+      newOpts = [[imgField, imgB64Field], nameField, ageField, sexField]
+      $.each(options, (i, e) => {
+        e.children = newOpts[i];
+      })
       
       if (confirm('En verdad quieres borrar ' + dogId)) {
         cntr = prompt('Ingresa la contraseña');

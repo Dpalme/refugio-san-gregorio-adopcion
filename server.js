@@ -137,11 +137,8 @@ fastify.post("/editDog", async (request, reply) => {
     // Auth failed, return the log data plus a failed flag
     params.error = "La contraseña está mal";
   } else {
-    if (request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
-      dogs = await db.processDog(request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
-      if (dogs) {
-        params.dogs = dogs;
-      }
+    if (request.body.dogId && request.body.nombre && request.body.edad && request.body.sexo && request.body.img) {
+      await db.editDog(request.body.dogId, request.body.nombre, request.body.edad, request.body.sexo, request.body.img);
     }
   }
   // Return the info to the client

@@ -39,12 +39,6 @@ dbWrapper
         await db.run(
           "CREATE TABLE Log (id INTEGER PRIMARY KEY AUTOINCREMENT, perroId INTEGER, time STRING)"
         );
-      } else {
-        // We have a database already - write Choices records to log for info
-        console.log(await db.all("SELECT * from Perros"));
-
-        //If you need to remove a table from the database use this syntax
-        //db.run("DROP TABLE Logs"); //will fail if the table doesn't exist
       }
     } catch (dbError) {
       console.error(dbError);
@@ -155,13 +149,11 @@ module.exports = {
   /**
    * Edit dog by Id
    *
-   * Destroy everything in Log table
    */
   editDog: async (id, name, edad, sexo, img) => {
     try {
-      // Delete the logs
-      await db.run("DELETE FROM Perros WHERE id = ?;", id);
-
+      console.log(await db.run("UPDATE Perros SET nombre = '?', edad = '?', sexo = '?', img = '?' WHERE id = ?;", [name, edad, sexo, img, id]));
+      
       // Return the dogs so far
       return true;
     } catch (dbError) {

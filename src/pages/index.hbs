@@ -138,23 +138,52 @@
             id: 'imgEdit',
             name: 'imgEditBlob',
             onchange: 'processImageEdit()',
-            required
+            required: true,
+            class: 'w-100'
+          }),
+          imgField = object({
+            type: 'input',
+            id: 'imgB64Edit',
+            name: 'imgEdit',
+            required: true,
+            class: 'd-none',
+            value: options[1].get
+          }),
+          nameField = object({
+            type: 'input',
+            id: 'dogName',
+            name: 'nombre',
+            required: true,
+            value: options[2]
+          }),
+          ageField = object({
+            type: 'input',
+            id: 'dogAge',
+            name: 'edad',
+            required: true,
+            value: options[3].split('/')[0]
+          }),
+          sexField = object({
+            type: 'select',
+            id: 'dogSex',
+            name: 'sexo',
+            children: [
+              object({
+                type: 'option',
+                value: 'Macho',
+                innerText: Macho
+              }), object({
+                type: 'option',
+                value: 'Hembra',
+                innerText: Hembra
+              })
+            ],
+            value: options[3].split('/')[1]
           })
       append('dog-' + dogId, object({
              type: 'input'
              })
             )
-      <input type="file" id="imgFile" name="imgBlob" onchange="processImage()" required class="w-100" />
-            <input type="text" id="imgB64" name="img" class="d-none" required />
-            <label for="dogName">Nombre</label>
-            <input type="text" id="dogName" name="nombre" required />
-            <label for="dogAge">Edad</label>
-            <input type="text" id="dogAge" name="edad" required />
-            <label for="dogSex">Sexo</label>
-            <select id="dogSex" name="sexo">
-              <option value="Macho">Macho</option>
-              <option value="Hembra">Hembra</option>
-            </select>
       
       
       if (confirm('En verdad quieres borrar ' + dogId)) {
